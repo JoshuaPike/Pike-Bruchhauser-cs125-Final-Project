@@ -33,6 +33,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint='City or "Longitude, Latitude"' />
+
         </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|fill_horizontal"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressBarSearch"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
