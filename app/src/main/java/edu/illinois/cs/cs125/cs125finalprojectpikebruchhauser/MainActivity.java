@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 Log.d(TAG, "City input text clicked");
-                // Method that allows text to be edited.
+                // Method that allows text to be edited
             }
         });
     }
