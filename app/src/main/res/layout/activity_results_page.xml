@@ -30,7 +30,7 @@
             android:id="@+id/wind"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:text="wind_speed & wind_direction: The wind speed is Y from the Z:"
+            android:text="wind_speed and wind_direction: The wind speed is Y from the Z:"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="184dp" />
 
