@@ -24,17 +24,19 @@
             android:text="Input a location"
             android:textAppearance="@android:style/TextAppearance.Material.Display2" />
 
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/locationInput"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint='City or "longitude, latitude"'
+            android:inputType="textPersonName" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/locationInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint='City or "Longitude, Latitude"' />
-
-        </android.support.design.widget.TextInputLayout>
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit" />
 
     </LinearLayout>
 
