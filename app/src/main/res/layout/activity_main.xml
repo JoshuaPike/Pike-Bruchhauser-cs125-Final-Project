@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -38,19 +39,48 @@
             android:layout_height="wrap_content"
             android:text="Submit" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|fill_horizontal"
-        android:orientation="vertical">
-
-        <ProgressBar
-            android:id="@+id/progressBarSearch"
-            style="?android:attr/progressBarStyleHorizontal"
+        <TextView
+            android:id="@+id/city"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Title" />
+
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:text="Temperature" />
+
+        <TextView
+            android:id="@+id/minTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="minTemp" />
+
+        <TextView
+            android:id="@+id/maxTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="maxTemp" />
+
+        <TextView
+            android:id="@+id/weatherState"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:text="weatherState" />
+
+        <TextView
+            android:id="@+id/windSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:text="windSpeed" />
+
+        <TextView
+            android:id="@+id/windDirection"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:text="windDirection" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

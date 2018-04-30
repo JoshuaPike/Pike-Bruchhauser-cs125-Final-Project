@@ -36,10 +36,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.apache.commons.io.FileUtils;
@@ -97,21 +100,25 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onSubmitButtonClick(String loc) {
         location = loc;
-        if (location.equals("")) {
-            Log.d(TAG, "Empty Location");
-        } else if (location == null) {
-            Log.d(TAG, "Null Location");
-        } else {
-            Log.d(TAG, location);
-        }
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+        StringRequest StringRequest = new StringRequest(
                 Request.Method.GET,
                 "https://www.metaweather.com/api/location/search/?query="+location,
-                null,
-                new Response.Listener<JSONArray>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(final JSONArray response) {
-                        Log.d(TAG, response.toString());
+                    public void onResponse(final String response) {
+                        Log.d(TAG, response);
+                        JsonObject result = checkIfValid(response);
+                        if (result != null) {
+                            Log.d(TAG, "IT KINDA WORKS!");
+                            TextView temp = findViewById(R.id.city);
+                            temp.setText(result.get("title").getAsString());
+                            displayInfo(result);
+                        } else {
+                            Log.d(TAG, "Invalid query");
+                            Toast toast = Toast.makeText(getApplicationContext(), "Search was invalid or not specific enough",
+                                    Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -119,7 +126,91 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, error.toString());
             }
         });
-        Log.d(TAG, jsonArrayRequest.toString());
-        requestQueue.add(jsonArrayRequest); //TODO: Understand how to use this
+        requestQueue.add(StringRequest);
+    }
+
+    /**
+     * Will check if the query is valid.
+     * @param json The json given from the API.
+     * @return Returns JsonObject if query is specific enough and null if no response or not specific
+     * enough
+     */
+    public JsonObject checkIfValid(String json) {
+        try {
+            JsonParser parser = new JsonParser();
+            JsonArray rootObj = parser.parse(json).getAsJsonArray();
+            if (rootObj.size() != 1) {
+                return null;
+            } else {
+                return rootObj.get(0).getAsJsonObject();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param json
+     */
+    public void displayInfo(JsonObject json) {
+        String woeid = json.get("woeid").getAsString();
+        String url = "https://www.metaweather.com/api/location/"+woeid+"/";
+
+        StringRequest StringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+                        Log.d(TAG, response);
+                        String[] results = getInfo(response);
+                        TextView theTemp = findViewById(R.id.temperature);
+                        TextView minTemp = findViewById(R.id.minTemp);
+                        TextView maxTemp = findViewById(R.id.maxTemp);
+                        TextView state = findViewById(R.id.weatherState);
+                        TextView windSpeed = findViewById(R.id.windSpeed);
+                        TextView windDir = findViewById(R.id.windDirection);
+
+                        theTemp.setText(results[0]);
+                        minTemp.setText(results[1]);
+                        maxTemp.setText(results[2]);
+                        state.setText(results[3]);
+                        windSpeed.setText(results[4]);
+                        windDir.setText(results[5]);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(final VolleyError error) {
+                Log.w(TAG, error.toString());
+            }
+        });
+        requestQueue.add(StringRequest);
+    }
+
+    /**
+     *
+     * @param json
+     * @return
+     */
+    public String[] getInfo(String json) {
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject rootObj = parser.parse(json).getAsJsonObject();
+            JsonArray consolWeather = rootObj.getAsJsonArray("consolidated_weather");
+            JsonObject mostRecent = consolWeather.get(0).getAsJsonObject();
+            String weatherState = mostRecent.get("weather_state_name").getAsString();
+            String windSpeed = mostRecent.get("wind_speed").getAsString();
+            String windDir = mostRecent.get("wind_direction_compass").getAsString();
+            String minTemp = mostRecent.get("min_temp").getAsString();
+            String maxTemp = mostRecent.get("max_temp").getAsString();
+            String theTemp = mostRecent.get("the_temp").getAsString();
+            String[] toReturn = {theTemp, minTemp, maxTemp, weatherState, windSpeed, windDir};
+            return toReturn;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
