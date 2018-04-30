@@ -53,6 +53,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -151,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param json
+     * Displays the info given by the API.
+     * @param json The json given back from the api.
      */
     public void displayInfo(JsonObject json) {
         String woeid = json.get("woeid").getAsString();
@@ -190,9 +192,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param json
-     * @return
+     * Gets the weather info from the API and formats it nicely.
+     * @param json The json the API returns.
+     * @return A String array containing the formatted data.
      */
     public String[] getInfo(String json) {
         try {
@@ -200,12 +202,13 @@ public class MainActivity extends AppCompatActivity {
             JsonObject rootObj = parser.parse(json).getAsJsonObject();
             JsonArray consolWeather = rootObj.getAsJsonArray("consolidated_weather");
             JsonObject mostRecent = consolWeather.get(0).getAsJsonObject();
-            String weatherState = mostRecent.get("weather_state_name").getAsString();
-            String windSpeed = mostRecent.get("wind_speed").getAsString();
-            String windDir = mostRecent.get("wind_direction_compass").getAsString();
-            String minTemp = mostRecent.get("min_temp").getAsString();
-            String maxTemp = mostRecent.get("max_temp").getAsString();
-            String theTemp = mostRecent.get("the_temp").getAsString();
+            DecimalFormat df = new DecimalFormat("##.##");
+            String weatherState = "Weather State: " + mostRecent.get("weather_state_name").getAsString();
+            String windSpeed = "Wind Speed: " + df.format(mostRecent.get("wind_speed").getAsFloat()).toString() + "mph";
+            String windDir = "Compass Wind Direction: " + mostRecent.get("wind_direction_compass").getAsString();
+            String minTemp = "Minimum Temperature: " + df.format(mostRecent.get("min_temp").getAsFloat()).toString() + "C";
+            String maxTemp = "Maximum Temperature: " + df.format(mostRecent.get("max_temp").getAsFloat()).toString() + "C";
+            String theTemp = "Current Temperature: " + df.format(mostRecent.get("the_temp").getAsFloat()).toString() + "C";
             String[] toReturn = {theTemp, minTemp, maxTemp, weatherState, windSpeed, windDir};
             return toReturn;
         } catch (Exception e) {

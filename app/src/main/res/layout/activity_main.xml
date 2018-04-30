@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint='City or "longitude, latitude"'
+            android:hint="Input a city (i.e. London)"
             android:inputType="textPersonName" />
 
         <Button
@@ -43,43 +43,50 @@
             android:id="@+id/city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="City: "
             android:textAppearance="@android:style/TextAppearance.Material.Title" />
 
         <TextView
             android:id="@+id/temperature"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:text="Temperature" />
+            android:text="Current Temperature: "
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
         <TextView
             android:id="@+id/minTemp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="minTemp" />
+            android:layout_height="38dp"
+            android:text="Minimum Temperature: "
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
         <TextView
             android:id="@+id/maxTemp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="maxTemp" />
+            android:layout_height="38dp"
+            android:text="Maximum Temperature: "
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
         <TextView
             android:id="@+id/weatherState"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:text="weatherState" />
+            android:text="Weather State: "
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
         <TextView
             android:id="@+id/windSpeed"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:text="windSpeed" />
+            android:text="Wind Speed: "
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
         <TextView
             android:id="@+id/windDirection"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:text="windDirection" />
+            android:text="Compass Wind Direction: "
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
     </LinearLayout>
 
